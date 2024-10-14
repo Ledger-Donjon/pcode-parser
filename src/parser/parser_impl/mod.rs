@@ -173,7 +173,11 @@ impl std::str::FromStr for Varnode {
                 u64::from_str_radix(addr_str, 16)
                     .map_err(|_| format!("Failed to parse unique address: '{}'", addr_str))?,
             ),
-            "const" => Var::Const(addr_str.to_string()),
+            "const" => {
+                let const_value = u64::from_str_radix(addr_str, 16)
+                    .map_err(|_| format!("Failed to parse constant value: '{}'", addr_str))?;
+                Var::Const(format!("{:#x}", const_value)) // hex for consistency
+            }
             _ => return Err(format!("Unknown varnode type '{}'", var_type)),
         };
 
