@@ -146,7 +146,7 @@ impl std::str::FromStr for Varnode {
 
         // Check if it's the special (ram) case
         if def.len() == 1 && def[0] == "ram" {
-            return Ok(Varnode { var: Var::MemoryRam, size: Size::Quad }); // Assuming default size is Quad (8 bytes)
+            return Ok(Varnode { var: Var::MemoryRam, size: Size::Quad });
         }
 
         if def.len() != 3 {
@@ -154,16 +154,26 @@ impl std::str::FromStr for Varnode {
         }
 
         let var_type = def[0];
-        let addr_str = def[1];
+        let addr_str = def[1].trim_start_matches("0x"); // Strip '0x' if present
         let size_str = def[2];
 
         let size = size_str.parse::<Size>().map_err(|_| format!("Invalid size: {}", size_str))?;
 
         let var = match var_type {
-            "register" => Var::Register(u64::from_str_radix(addr_str, 16).map_err(|_| format!("Failed to parse register address: '{}'", addr_str))?, size),
-            "ram" => Var::Memory(u64::from_str_radix(addr_str, 16).map_err(|_| format!("Failed to parse memory address: '{}'", addr_str))?),
-            "unique" => Var::Unique(u64::from_str_radix(addr_str, 16).map_err(|_| format!("Failed to parse unique address: '{}'", addr_str))?),
-            "const" => Var::Const(def[1].to_string()),
+            "register" => Var::Register(
+                u64::from_str_radix(addr_str, 16)
+                    .map_err(|_| format!("Failed to parse register address: '{}'", addr_str))?,
+                size,
+            ),
+            "ram" => Var::Memory(
+                u64::from_str_radix(addr_str, 16)
+                    .map_err(|_| format!("Failed to parse memory address: '{}'", addr_str))?,
+            ),
+            "unique" => Var::Unique(
+                u64::from_str_radix(addr_str, 16)
+                    .map_err(|_| format!("Failed to parse unique address: '{}'", addr_str))?,
+            ),
+            "const" => Var::Const(addr_str.to_string()),
             _ => return Err(format!("Unknown varnode type '{}'", var_type)),
         };
 
