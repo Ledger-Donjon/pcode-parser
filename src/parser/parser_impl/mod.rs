@@ -104,6 +104,7 @@ impl std::str::FromStr for Size {
             "2" => Ok(Self::Half),
             "4" => Ok(Self::Word),
             "8" => Ok(Self::Quad),
+            "9" => Ok(Self::Size9),
             "16" => Ok(Self::DoubleQuad),
             "32" => Ok(Self::QuadQuad),
             _ => panic!("\"{}\" does not correspond to a Size!", s),
