@@ -97,6 +97,7 @@ pub enum Size {
     Word,
     Quad,
     Size9,
+    Size10,
     DoubleQuad,
     QuadQuad,
 }
@@ -109,6 +110,7 @@ impl Size {
             Size::Word => 32,
             Size::Quad => 64,
             Size::Size9 => 72,
+            Size::Size10 => 80,
             Size::DoubleQuad => 128,
             Size::QuadQuad => 256,
         }
