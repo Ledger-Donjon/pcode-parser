@@ -108,6 +108,8 @@ impl std::str::FromStr for Size {
             "10" => Ok(Self::Size10),
             "16" => Ok(Self::DoubleQuad),
             "32" => Ok(Self::QuadQuad),
+            // 64 denotes 64 bytes (512 bits) in some p-code streams (e.g., AVX-512 ZMM).
+            "64" => Ok(Self::OctaQuad),
             _ => panic!("\"{}\" does not correspond to a Size!", s),
         }
     }

@@ -100,6 +100,7 @@ pub enum Size {
     Size10,
     DoubleQuad,
     QuadQuad,
+    OctaQuad,
 }
 
 impl Size {
@@ -113,6 +114,7 @@ impl Size {
             Size::Size10 => 80,
             Size::DoubleQuad => 128,
             Size::QuadQuad => 256,
+            Size::OctaQuad => 512,
         }
     }
 }
